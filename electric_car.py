@@ -20,7 +20,8 @@ class ElectricCar(Vehicle):
     def __str__(self):
         return f"ElectricCar [ID: {self.get_vehicle_id()}, Model: {self.get_model()}, Battery: {self.get_battery_percentage()}%, Maintenance: {self.get_maintenance_status()}, Rental Price: {self.get_rental_price()}, Seating Capacity: {self.__seating_capacity}]"
 
+    # overriden function from vehicle class
     def calculate_trip_cost(self, distance):
         if distance < 0:
             raise ValueError("Distance cannot be negative.")
-        return distance * self.get_rental_price()
+        return 5.00 + 0.50 * distance
