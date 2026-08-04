@@ -1,4 +1,7 @@
-class Vehicle:
+from abc import ABC, abstractmethod
+
+
+class Vehicle(ABC):
     def __init__(self, vehicle_id, model, battery_percentage, maintenance_status, rental_price):
         self.__vehicle_id = vehicle_id
         self.__model = model
@@ -40,3 +43,7 @@ class Vehicle:
 
     def __str__(self):
         return f"Vehicle [ID: {self.__vehicle_id}, Model: {self.__model}, Battery: {self.__battery_percentage}%, Maintenance: {self.__maintenance_status}, Rental Price: {self.__rental_price}]"
+
+    @abstractmethod
+    def calculate_trip_cost(self, distance):
+        pass
