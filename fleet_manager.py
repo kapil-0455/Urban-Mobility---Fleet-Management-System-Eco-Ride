@@ -22,10 +22,10 @@ class FleetManager:
         print("Hub Added Successfully.")
     
     def add_vehicle_to_hub(self, hub_name, vehicle):
+        hub_name = hub_name.strip()
         for hub in self.__hubs:
             if hub.get_hub_name().lower() == hub_name.lower():
                 hub.add_vehicle(vehicle)
-                print("Vehicle Added Successfully.")
                 return
 
         print("Hub not found.")
@@ -38,7 +38,6 @@ class FleetManager:
         for hub in self.__hubs:
             if hub.get_hub_name().lower() == hub_name.lower():
                 hub.remove_vehicle(vehicle_id)
-                print("Vehicle removed Successfully.")
                 return
             
         print("Hub not found.")

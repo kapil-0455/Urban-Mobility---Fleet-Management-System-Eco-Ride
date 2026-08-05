@@ -14,11 +14,11 @@ class Hub:
             print("Only Vehicle objects can be added.")
             return
 
-        for existing_vehicle in self.__vehicles:
-            if existing_vehicle.get_vehicle_id() == vehicle.get_vehicle_id():
-                print("Vehicle ID already exists in this hub.")
-                return
-
+        duplicate = [v for v in self.__vehicles if v == vehicle]
+        if duplicate: 
+            print("Vehicle Id already exits in hub")
+            return 
+        
         self.__vehicles.append(vehicle)
         print("Vehicle Added Successfully.")
     

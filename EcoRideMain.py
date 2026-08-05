@@ -28,71 +28,97 @@ class EcoRideMain:
                 continue
 
             if choice == 1:
-                hub_name = input("Enter Hub Name: ")
-                fleet.add_hub(hub_name)
+                hub_name = input("Enter a hub name : ")
+                try:
+                    fleet.add_hub(hub_name)
+                except ValueError as e:
+                    print(e)
 
             elif choice == 2:
 
-                hub_name = input("Enter Hub Name: ")
-
-                try:
-                    vehicle_choice = int(input(
-                        "\nVehicle Type\n"
-                        "1. Electric Car\n"
-                        "2. Electric Scooter\n"
-                        "Enter choice: \n"
-                    ))
-                except ValueError:
-                    print('Invalid vehicle choice')
-
-                vehicle_id = input("Enter Vehicle ID: ")
-                model = input("Enter Model: ")
-                maintenance_choice = int(input(
-                    "\nMaintenance Status\n"
-                    "1. Available\n"
-                    "2. Under Maintenance\n"
-                    "3. Out of Service\n"
-                    "Enter choice: "
-                ))
-
-                if maintenance_choice == 1:
-                    maintenance = "Available"
-
-                elif maintenance_choice == 2:
-                    maintenance = "Under Maintenance"
-
-                elif maintenance_choice == 3:
-                    maintenance = "Out of Service"
-
-                else:
-                    print("Invalid Maintenance Status.")
+                hub_name = input("Enter Hub Name: ").strip()
+                if not hub_name:
+                    print("Hub name cannot be empty.")
                     continue
 
-                try:
-                    battery = int(input("Enter Battery Percentage: "))
-                    rental_price = float(input("Enter Rental Price: "))
-                except ValueError:
-                    print("Battery percentage and Rental Price must be numeric.")
-                    continue
-
-                if vehicle_choice == 1:
+                while True:
+                    print('<----------------Vehicle choice ------------>')
                     try:
-                        seating_capacity = int(input("Enter Seating Capacity: "))
-                        vehicle = ElectricCar(vehicle_id,model,battery,maintenance,rental_price,seating_capacity)
-                        fleet.add_vehicle_to_hub(hub_name, vehicle)
-                    except ValueError as e:
-                        print(e)
+                        vehicle_choice = int(input(
+                            "\nVehicle Type\n"
+                            "1. Electric Car\n"
+                            "2. Electric Scooter\n"
+                            "Enter choice: "
+                        ))
+                        if vehicle_choice not in [1, 2]:
+                            print("Please enter 1 or 2.")
+                            continue
+                    except ValueError:
+                        print('Invalid vehicle choice. Please enter a number.')
+                        continue
 
-                elif vehicle_choice == 2:
-                    try:
-                        max_speed = int(input("Enter Max Speed Limit: "))
-                        vehicle = ElectricScooter(vehicle_id,model,battery,maintenance,rental_price,max_speed)
-                        fleet.add_vehicle_to_hub(hub_name, vehicle)
-                    except ValueError as e:
-                        print(e)
+                    vehicle_id = input("Enter Vehicle ID: ").strip()
+                    if not vehicle_id:
+                        print("Vehicle ID cannot be empty.")
+                        continue
 
-                else:
-                    print("Invalid Vehicle Type.")
+                    model = input("Enter Model: ").strip()
+                    if not model:
+                        print("Model cannot be empty.")
+                        continue
+
+                    while True:
+                        try:
+                            maintenance_choice = int(input(
+                                "\nMaintenance Status\n"
+                                "1. Available\n"
+                                "2. Under Maintenance\n"
+                                "3. Out of Service\n"
+                                "Enter choice: "
+                            ))
+                        except ValueError :
+                            print("Please enter a valid number.")
+                            continue
+
+                        if maintenance_choice == 1:
+                            maintenance = "Available"
+                            break
+                        elif maintenance_choice == 2:
+                            maintenance = "Under Maintenance"
+                            break
+                        elif maintenance_choice == 3:
+                            maintenance = "Out of Service"
+                            break
+                        else:
+                            print("Invalid Maintenance Status.")
+                            continue
+
+                    if vehicle_choice == 1:
+                        while True:
+                            try:
+                                battery = int(input("Enter Battery Percentage: "))
+                                rental_price = float(input("Enter Rental Price: "))
+                                seating_capacity = int(input("Enter Seating Capacity: "))
+                                vehicle = ElectricCar(vehicle_id, model, battery, maintenance, rental_price, seating_capacity)
+                                fleet.add_vehicle_to_hub(hub_name, vehicle)
+                                break
+                            except ValueError as e:
+                                print(f"Error: {e} Please enter the values again.")
+                        break
+
+                    elif vehicle_choice == 2:
+                        while True:
+                            try:
+                                battery = int(input("Enter Battery Percentage: "))
+                                rental_price = float(input("Enter Rental Price: "))
+                                max_speed = int(input("Enter Max Speed Limit: "))
+                                vehicle = ElectricScooter(vehicle_id, model, battery, maintenance, rental_price, max_speed)
+                                fleet.add_vehicle_to_hub(hub_name, vehicle)
+                                break
+                            except ValueError as e:
+                                print(f"Error: {e} Please enter the values again.")
+                        break
+
 
             elif choice == 3:
                 fleet.display_hubs()
@@ -100,7 +126,10 @@ class EcoRideMain:
             elif choice == 4:
                 hub_name = input("Enter Hub Name: ")
                 vehicle_id = input("Enter Vehicle ID: ")
-                fleet.remove_vehicle_to_hub(hub_name , vehicle_id)
+                try:
+                    fleet.remove_vehicle_to_hub(hub_name, vehicle_id)
+                except ValueError as e:
+                    print(e)
 
             elif choice == 5 :
                 print('Thank you')
