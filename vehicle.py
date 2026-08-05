@@ -6,7 +6,7 @@ class Vehicle(ABC):
         self.__vehicle_id = vehicle_id
         self.__model = model
         self.set_battery_percentage(battery_percentage)
-        self.__maintenance_status = maintenance_status
+        self.set_maintenance_status(maintenance_status)
         self.__rental_price = rental_price
 
     # Getters
@@ -33,7 +33,12 @@ class Vehicle(ABC):
             raise ValueError("Battery percentage must be between 0 and 100.")
 
     def set_maintenance_status(self, status):
-        self.__maintenance_status = status
+        valid_status = ["Available","Under Maintenance","Out of Service"]
+        status = status.strip()
+        if status in valid_status:
+            self.__maintenance_status = status
+        else:
+            raise ValueError("Invalid maintenance status.")
 
     def set_rental_price(self, price):
         if price >= 0:
