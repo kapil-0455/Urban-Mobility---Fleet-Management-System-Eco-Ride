@@ -20,7 +20,8 @@ class EcoRideMain:
                     "2. Add Vehicle to Hub\n"
                     "3. Display Hubs\n"
                     "4. Remove Vehicle from Hub\n"
-                    "5. Exit\n"
+                    "5. Search Vehicles\n"
+                    "6. Exit\n"
                     "Enter your choice: "
                 ))
             except ValueError:
@@ -132,6 +133,30 @@ class EcoRideMain:
                     print(e)
 
             elif choice == 5 :
+                while True:
+                    try:
+                        search_option = int(input(
+                            "\n--- Search Option ---\n"
+                            "1. Search by hub name\n"
+                            "2. Search by battery\n"
+                            "3. Exit search menu\n"
+                            "Enter choice: "
+                        ))
+                    except ValueError:
+                        print("Enter a valid Number ")
+                        continue
+
+                    if search_option == 1:
+                        hub_name = input('Enter a hub Name : ')
+                        fleet.search_by_hub(hub_name)
+                    elif search_option == 2:
+                        fleet.search_by_battery()
+                    elif search_option == 3:
+                        break
+                    else :
+                        print("Invalid choice. Please try again.")
+
+            elif choice == 6:
                 print('Thank you')
                 break
 
