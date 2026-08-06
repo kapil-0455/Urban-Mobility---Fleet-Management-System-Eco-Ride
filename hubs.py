@@ -12,28 +12,30 @@ class Hub:
     def add_vehicle(self, vehicle):
         if not isinstance(vehicle, Vehicle):
             print("Only Vehicle objects can be added.")
-            return
+            return False
 
         duplicate = [v for v in self.__vehicles if v == vehicle]
         if duplicate: 
             print("Vehicle Id already exits in hub")
-            return 
+            return False
         
         self.__vehicles.append(vehicle)
         print("Vehicle Added Successfully.")
+        return True
     
     def remove_vehicle(self, vehicle_id):
         if len(self.__vehicles) == 0:
             print('No vehicle found')
-            return 
+            return None
 
         for vehicle in self.__vehicles:
             if vehicle.get_vehicle_id() == vehicle_id:
                 self.__vehicles.remove(vehicle)
                 print("Vehicle Removed Successfully.")
-                return
+                return vehicle
 
         print('Vehicle not found')
+        return None
 
     def get_vehicles(self):
         return self.__vehicles
