@@ -125,5 +125,17 @@ class FleetManager:
                 print(f"{vehicle}")
 
 
-        
+    def fleet_analytics(self):
+        status_dict = {"Available": 0, "On Trip": 0, "Under Maintenance": 0}
+        for hub in self.__hubs:
+            for vehicle in hub.get_vehicles():
+                status = vehicle.get_maintenance_status()
+                status_dict[status] = status_dict.get(status , 0) + 1
+
+        print("\n==========Fleet Analytics==============\n")
+        for vehicle , vehicle_count in status_dict.items():
+            print(f"{vehicle} : {vehicle_count}\n")
+
+
+
 

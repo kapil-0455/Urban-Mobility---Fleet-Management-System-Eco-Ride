@@ -21,7 +21,8 @@ class EcoRideMain:
                     "3. Display Hubs\n"
                     "4. Remove Vehicle from Hub\n"
                     "5. Search Vehicles\n"
-                    "6. Exit\n"
+                    "6. Fleet anayltics\n"
+                    "7. Exit\n"
                     "Enter your choice: "
                 ))
             except ValueError:
@@ -43,7 +44,7 @@ class EcoRideMain:
                     continue
 
                 while True:
-                    print('<----------------Vehicle choice ------------>')
+                    print('================Vehicle choice =================')
                     try:
                         vehicle_choice = int(input(
                             "\nVehicle Type\n"
@@ -71,10 +72,10 @@ class EcoRideMain:
                     while True:
                         try:
                             maintenance_choice = int(input(
-                                "\nMaintenance Status\n"
+                                "\n===Maintenance Status====\n"
                                 "1. Available\n"
                                 "2. Under Maintenance\n"
-                                "3. Out of Service\n"
+                                "3. On Trip\n"
                                 "Enter choice: "
                             ))
                         except ValueError :
@@ -88,7 +89,7 @@ class EcoRideMain:
                             maintenance = "Under Maintenance"
                             break
                         elif maintenance_choice == 3:
-                            maintenance = "Out of Service"
+                            maintenance = "On Trip"
                             break
                         else:
                             print("Invalid Maintenance Status.")
@@ -136,7 +137,7 @@ class EcoRideMain:
                 while True:
                     try:
                         search_option = int(input(
-                            "\n--- Search Option ---\n"
+                            "\n======= Search Option =======\n"
                             "1. Search by hub name\n"
                             "2. Search by battery\n"
                             "3. Exit search menu\n"
@@ -157,9 +158,11 @@ class EcoRideMain:
                         print("Invalid choice. Please try again.")
 
             elif choice == 6:
-                print('Thank you')
+                fleet.fleet_analytics()
+                
+            elif choice == 7 :
                 break
-
+            
             else :
                 print('Choice is Invalid please try again')
 
