@@ -164,5 +164,45 @@ class FleetManager:
         print("Hub not Found")
 
 
+    def sort_fleet(self , sort_type , hub_name ):
+
+        hub_name = hub_name.strip()
+        if hub_name == "":
+            print("Hub cannot be empty")
+            return
+
+        sort_type = sort_type.strip().lower()
+
+        for hub in self.__hubs:
+            if hub.get_hub_name().lower() == hub_name.lower():
+
+                vehicles = hub.get_vehicles()
+
+                if len(vehicles) == 0:
+                    print("No vehicles available in this hub")
+                    return 
+
+                if sort_type == "battery":
+                    sorted_vehicles = sorted(vehicles , key = lambda vehicle : vehicle.get_battery_percentage() , reverse=True)
+                    print(f"\nVehicles in {hub.get_hub_name()} sorted by Battery\n")
+
+                elif sort_type == "price":
+                    sorted_vehicles = sorted(vehicles , key = lambda vehicle : vehicle.get_rental_price())
+                    print(f"\nVehicles in {hub.get_hub_name()} sorted by Rental Price\n")
+
+                else :
+                    print("Invalid option type")
+                    return 
+
+                for vehicle in sorted_vehicles:
+                    print(vehicle)
+
+                return
+
+        print("Hub not found")
+
+                
+
+
     
 

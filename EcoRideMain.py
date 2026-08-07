@@ -23,7 +23,8 @@ class EcoRideMain:
                     "5. Search Vehicles\n"
                     "6. Fleet anayltics\n"
                     "7. Sort vehicle by Model in an Hub\n"
-                    "8. Exit\n"
+                    "8. Advanced Sorting (Battery/Price)\n"
+                    "9. Exit\n"
                     "Enter your choice: "
                 ))
             except ValueError:
@@ -162,10 +163,36 @@ class EcoRideMain:
                 fleet.fleet_analytics()
                 
             elif choice == 7 :
-                hub_name = input("Enter hub name")
+                hub_name = input("Enter hub name: ")
                 fleet.alphabet_sort(hub_name)
             
-            elif choice == 8 :
+            elif choice == 8:
+                hub_name = input("Enter Hub Name: ")
+                while True:
+                    try:
+                        sort_choice = int(input(
+                            "\nAdvanced Sorting\n"
+                            "1. Battery Level\n"
+                            "2. Rental Price\n"
+                            "3. Back\n"
+                            "Enter choice: "
+                        ))
+                    except ValueError:
+                        print("Enter a valid number.")
+                        continue
+
+                    if sort_choice == 1:
+                        fleet.sort_fleet("battery", hub_name)
+                        break
+                    elif sort_choice == 2:
+                        fleet.sort_fleet("price", hub_name)
+                        break
+                    elif sort_choice == 3:
+                        break
+                    else:
+                        print("Invalid Choice.")
+
+            elif choice == 9 :
                 break
 
             else :
