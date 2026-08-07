@@ -137,5 +137,32 @@ class FleetManager:
             print(f"{vehicle} : {vehicle_count}\n")
 
 
+    def alphabet_sort(self , hub_name):
+        hub_name = hub_name.strip()
+        if hub_name == "":
+            print('Hub cannot be empty')
+            return
 
+        for hub in self.__hubs:
+
+            if hub.get_hub_name().lower() == hub_name.lower():
+
+                vehicles = hub.get_vehicles()
+
+                if len(vehicles) == 0:
+                    print("No vehicles in this hub")
+                    return
+
+                sorted_vehicles = sorted(vehicles , key = lambda vehicle : vehicle.get_model().lower())
+                print("vehicle orderd alphabeticaly")
+
+                for vehicle in sorted_vehicles:
+                    print(vehicle)
+
+                return 
+
+        print("Hub not Found")
+
+
+    
 

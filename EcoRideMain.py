@@ -22,7 +22,8 @@ class EcoRideMain:
                     "4. Remove Vehicle from Hub\n"
                     "5. Search Vehicles\n"
                     "6. Fleet anayltics\n"
-                    "7. Exit\n"
+                    "7. Sort vehicle by Model in an Hub\n"
+                    "8. Exit\n"
                     "Enter your choice: "
                 ))
             except ValueError:
@@ -161,10 +162,14 @@ class EcoRideMain:
                 fleet.fleet_analytics()
                 
             elif choice == 7 :
-                break
+                hub_name = input("Enter hub name")
+                fleet.alphabet_sort(hub_name)
             
+            elif choice == 8 :
+                break
+
             else :
-                print('Choice is Invalid please try again')
+                print("Invalid choice. Please try again.")
 
 
 if __name__ == "__main__":
