@@ -2,7 +2,9 @@ from abc import ABC, abstractmethod
 
 
 class Vehicle(ABC):
-    def __init__(self, vehicle_id, model, battery_percentage, maintenance_status, rental_price):
+    def __init__(
+        self, vehicle_id, model, battery_percentage, maintenance_status, rental_price
+    ):
         self.__vehicle_id = vehicle_id
         self.__model = model
         self.set_battery_percentage(battery_percentage)
@@ -48,9 +50,8 @@ class Vehicle(ABC):
     def calculate_trip_cost(self, distance):
         pass
 
-    def __eq__(self , other):
-        if not isinstance(other , Vehicle):
+    def __eq__(self, other):
+        if not isinstance(other, Vehicle):
             return False
 
         return self.get_vehicle_id() == other.get_vehicle_id()
-        

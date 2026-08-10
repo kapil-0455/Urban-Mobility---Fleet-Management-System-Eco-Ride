@@ -15,17 +15,17 @@ class Hub:
             return False
 
         duplicate = [v for v in self.__vehicles if v == vehicle]
-        if duplicate: 
+        if duplicate:
             print("Vehicle Id already exits in hub")
             return False
-        
+
         self.__vehicles.append(vehicle)
         print("Vehicle Added Successfully.")
         return True
-    
+
     def remove_vehicle(self, vehicle_id):
         if len(self.__vehicles) == 0:
-            print('No vehicle found')
+            print("No vehicle found")
             return None
 
         for vehicle in self.__vehicles:
@@ -34,7 +34,7 @@ class Hub:
                 print("Vehicle Removed Successfully.")
                 return vehicle
 
-        print('Vehicle not found')
+        print("Vehicle not found")
         return None
 
     def get_vehicles(self):

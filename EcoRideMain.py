@@ -11,6 +11,7 @@ class EcoRideMain:
         print("Welcome to Eco-Ride Urban Mobility System")
 
         fleet = FleetManager()
+        fleet.load_from_csv("fleet_data.csv")
         while True:
 
             try:
@@ -193,6 +194,8 @@ class EcoRideMain:
                         print("Invalid Choice.")
 
             elif choice == 9 :
+                fleet.save_to_csv("fleet_data.csv")
+                print("Thank you for using Eco-Ride Urban Mobility System!")
                 break
 
             else :
