@@ -11,7 +11,6 @@ class EcoRideMain:
         print("Welcome to Eco-Ride Urban Mobility System")
 
         fleet = FleetManager()
-        fleet.load_from_csv("fleet_data.csv")
         while True:
 
             try:
@@ -22,10 +21,14 @@ class EcoRideMain:
                     "3. Display Hubs\n"
                     "4. Remove Vehicle from Hub\n"
                     "5. Search Vehicles\n"
-                    "6. Fleet anayltics\n"
-                    "7. Sort vehicle by Model in an Hub\n"
+                    "6. Fleet Analytics\n"
+                    "7. Sort vehicle by Model in a Hub\n"
                     "8. Advanced Sorting (Battery/Price)\n"
-                    "9. Exit\n"
+                    "9. Load Data from CSV\n"
+                    "10. Save Data in CSV\n"
+                    "11. Load Data from JSON\n"
+                    "12. Save Data in JSON\n"
+                    "13. Exit\n"
                     "Enter your choice: "
                 ))
             except ValueError:
@@ -44,6 +47,10 @@ class EcoRideMain:
                 hub_name = input("Enter Hub Name: ").strip()
                 if not hub_name:
                     print("Hub name cannot be empty.")
+                    continue
+
+                if not fleet.hub_exists(hub_name):
+                    print("Hub not found.")
                     continue
 
                 while True:
@@ -129,8 +136,14 @@ class EcoRideMain:
                 fleet.display_hubs()
 
             elif choice == 4:
-                hub_name = input("Enter Hub Name: ")
-                vehicle_id = input("Enter Vehicle ID: ")
+                hub_name = input("Enter Hub Name: ").strip()
+                if not hub_name:
+                    print("Hub name cannot be empty.")
+                    continue
+                if not fleet.hub_exists(hub_name):
+                    print("Hub not found.")
+                    continue
+                vehicle_id = input("Enter Vehicle ID: ").strip()
                 try:
                     fleet.remove_vehicle_to_hub(hub_name, vehicle_id)
                 except ValueError as e:
@@ -164,11 +177,23 @@ class EcoRideMain:
                 fleet.fleet_analytics()
                 
             elif choice == 7 :
-                hub_name = input("Enter hub name: ")
+                hub_name = input("Enter hub name: ").strip()
+                if not hub_name:
+                    print("Hub name cannot be empty.")
+                    continue
+                if not fleet.hub_exists(hub_name):
+                    print("Hub not found.")
+                    continue
                 fleet.alphabet_sort(hub_name)
             
             elif choice == 8:
-                hub_name = input("Enter Hub Name: ")
+                hub_name = input("Enter Hub Name: ").strip()
+                if not hub_name:
+                    print("Hub name cannot be empty.")
+                    continue
+                if not fleet.hub_exists(hub_name):
+                    print("Hub not found.")
+                    continue
                 while True:
                     try:
                         sort_choice = int(input(
@@ -193,12 +218,43 @@ class EcoRideMain:
                     else:
                         print("Invalid Choice.")
 
-            elif choice == 9 :
-                fleet.save_to_csv("fleet_data.csv")
+            elif choice == 9:
+                filename = input("Enter CSV filename (default: fleet_data.csv): ").strip()
+                if filename == "":
+                    filename = "fleet_data.csv"
+                print(f"\nLoading data from {filename}.")
+                fleet.load_from_csv(filename)
+                print("\n=== Current Fleet Data in System ===")
+                fleet.display_hubs()
+
+            elif choice == 10:
+                filename = input("Enter CSV filename (default: fleet_data.csv): ").strip()
+                if filename == "":
+                    filename = "fleet_data.csv"
+                fleet.save_to_csv(filename)
+                print(f"Data saved successfully to {filename}.")
+
+            elif choice == 11:
+                filename = input("Enter JSON filename (default: fleet_data.json): ").strip()
+                if filename == "":
+                    filename = "fleet_data.json"
+                print(f"\nLoading data from {filename}")
+                fleet.load_from_json(filename)
+                print("\n=== Current Fleet Data in System ===")
+                fleet.display_hubs()
+
+            elif choice == 12:
+                filename = input("Enter JSON filename (default: fleet_data.json): ").strip()
+                if filename == "":
+                    filename = "fleet_data.json"
+                fleet.save_to_json(filename)
+                print(f"Data saved successfully to {filename}.")
+
+            elif choice == 13:
                 print("Thank you for using Eco-Ride Urban Mobility System!")
                 break
 
-            else :
+            else:
                 print("Invalid choice. Please try again.")
 
 

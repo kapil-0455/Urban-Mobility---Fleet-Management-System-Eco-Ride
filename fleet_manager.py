@@ -1,4 +1,5 @@
 import csv
+import json
 from collections import defaultdict
 
 from electric_car import ElectricCar
@@ -25,6 +26,13 @@ class FleetManager:
 
         self.__hubs.append(Hub(hub_name))
         print("Hub Added Successfully.")
+
+    def hub_exists(self, hub_name):
+        hub_name = hub_name.strip().lower()
+        for hub in self.__hubs:
+            if hub.get_hub_name().lower() == hub_name:
+                return True
+        return False
 
     def add_vehicle_to_hub(self, hub_name, vehicle):
         hub_name = hub_name.strip()
@@ -238,7 +246,7 @@ class FleetManager:
                                 vehicle.get_maintenance_status(),
                                 vehicle.get_rental_price(),
                                 vehicle.get_seating_capacity(),
-                                None
+                                None,
                             ]
                         )
 
@@ -253,7 +261,7 @@ class FleetManager:
                                 vehicle.get_maintenance_status(),
                                 vehicle.get_rental_price(),
                                 None,
-                                vehicle.get_max_speed_limit()
+                                vehicle.get_max_speed_limit(),
                             ]
                         )
 
@@ -274,7 +282,7 @@ class FleetManager:
 
                     if not hub_exists:
                         self.add_hub(hub_name)
-                    
+
                     vehicle_id = row["vehicle_id"]
                     model = row["model"]
                     battery = int(row["battery"])
@@ -289,7 +297,7 @@ class FleetManager:
                             battery,
                             maintenance,
                             rental_price,
-                            seating_capacity
+                            seating_capacity,
                         )
 
                     elif row["vehicle_type"] == "Electric Scooter":
@@ -301,7 +309,7 @@ class FleetManager:
                             battery,
                             maintenance,
                             rental_price,
-                            max_speed
+                            max_speed,
                         )
                     else:
                         print("Invalid vehicle type in CSV.")
@@ -311,3 +319,105 @@ class FleetManager:
 
         except FileNotFoundError:
             print("No saved fleet data found.")
+
+    def save_to_json(self, filename):
+
+        data = []
+
+        for hub in self.__hubs:
+            hub_data = {"hub_name": hub.get_hub_name(), "vehicles": []}
+
+            for vehicle in hub.get_vehicles():
+                if isinstance(vehicle, ElectricCar):
+                    vehicle_data = {
+                        "vehicle_type": "Electric Car",
+                        "vehicle_id": vehicle.get_vehicle_id(),
+                        "model": vehicle.get_model(),
+                        "battery": vehicle.get_battery_percentage(),
+                        "maintenance": vehicle.get_maintenance_status(),
+                        "rental_price": vehicle.get_rental_price(),
+                        "seating_capacity": vehicle.get_seating_capacity(),
+                    }
+
+                elif isinstance(vehicle, ElectricScooter):
+                    vehicle_data = {
+                        "vehicle_type": "Electric Scooter",
+                        "vehicle_id": vehicle.get_vehicle_id(),
+                        "model": vehicle.get_model(),
+                        "battery": vehicle.get_battery_percentage(),
+                        "maintenance": vehicle.get_maintenance_status(),
+                        "rental_price": vehicle.get_rental_price(),
+                        "max_speed": vehicle.get_max_speed_limit(),
+                    }
+
+                else:
+                    continue
+
+                hub_data["vehicles"].append(vehicle_data)
+
+            data.append(hub_data)
+
+        with open(filename, "w") as f:
+            json.dump(data, f, indent=4)
+
+        print("Fleet data saved to Json")
+
+    def load_from_json(self, filename):
+
+        try:
+            with open(filename, "r") as f:
+                data = json.load(f)
+
+                for hub_data in data:
+                    hub_name = hub_data["hub_name"]
+
+                    hub_exists = False
+
+                    for hub in self.__hubs:
+                        if hub.get_hub_name().lower() == hub_name.lower():
+                            hub_exists = True
+                            break
+
+                    if hub_exists == False:
+                        self.add_hub(hub_name)
+
+                    for vehicle_data in hub_data["vehicles"]:
+                        vehicle_type = vehicle_data["vehicle_type"]
+                        vehicle_id = vehicle_data["vehicle_id"]
+                        model = vehicle_data["model"]
+                        battery = vehicle_data["battery"]
+                        maintenance = vehicle_data["maintenance"]
+                        rental_price = vehicle_data["rental_price"]
+
+                        if vehicle_type == "Electric Car":
+                            seating_capacity = vehicle_data["seating_capacity"]
+                            vehicle = ElectricCar(
+                                vehicle_id,
+                                model,
+                                battery,
+                                maintenance,
+                                rental_price,
+                                seating_capacity,
+                            )
+
+                        elif vehicle_type == "Electric Scooter":
+                            max_speed = vehicle_data["max_speed"]
+                            vehicle = ElectricScooter(
+                                vehicle_id,
+                                model,
+                                battery,
+                                maintenance,
+                                rental_price,
+                                max_speed,
+                            )
+
+                        else:
+                            print("Invalid vehicle type in json")
+                            continue
+
+                        self.add_vehicle_to_hub(hub_name, vehicle)
+
+                print("Data loaded from json file")
+
+        except FileNotFoundError:
+            print("file Not found")
