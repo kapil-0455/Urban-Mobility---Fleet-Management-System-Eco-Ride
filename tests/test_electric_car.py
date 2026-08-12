@@ -5,6 +5,7 @@ from electric_car import ElectricCar
 
 @pytest.fixture
 def car():
+
     return ElectricCar("001", "Volvo", 100, "Available", 50000, 5)
 
 
@@ -32,17 +33,27 @@ def test_seating_capacity(car):
     assert car.get_seating_capacity() == 5
 
 
-# def test_invalid_battery():
+def test_calculate_trip_cost(car):
+    result = car.calculate_trip_cost(10)
+    assert result == 10.0
 
-#     with pytest.raises(ValueError):
-#         ElectricCar("001", "Volvo", -100, "Available", 50000, 5)
 
-
-# using parametrize
 @pytest.mark.parametrize("invalid_battery", [-50, -1, 101, 200])
 def test_invalid_battery_values(invalid_battery):
     with pytest.raises(ValueError):
         ElectricCar("001", "Volvo", invalid_battery, "Available", 50000, 5)
+
+
+@pytest.mark.parametrize("distances", [-1, -20, -50])
+def test_calculate_invalid_trip_cost(distances, car):
+    with pytest.raises(ValueError):
+        car.calculate_trip_cost(distances)
+
+
+@pytest.mark.parametrize("invalid_seats", [30, 20, -8])
+def test_invalid_seating_capacity(invalid_seats, car):
+    with pytest.raises(ValueError):
+        car.set_seating_capacity(invalid_seats)
 
 
 def test_negative_rental_price():
