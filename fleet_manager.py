@@ -12,6 +12,9 @@ class FleetManager:
         self.__hubs = []
         self.__vehicle_categories = defaultdict(list)
 
+    def get_hubs(self):
+        return self.__hubs
+
     def add_hub(self, hub_name):
 
         hub_name = hub_name.strip()
